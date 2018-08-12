@@ -3,11 +3,30 @@ var Spotify = require('node-spotify-api');
 var keys = require("./keys.js");
 var Twitter = require('twitter');
 var request = require("request");
-
+var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 var command = process.argv[2];
+
+//do-what-it-says command
+if (command === "do-what-it-says") {
+    var randomText = "";
+    //Read random.txt file to get song name
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+          return console.log(error);
+        }
+        console.log(data);
+        randomText = data.split(",");
+        console.log(randomText);
+        process.argv[2] = randomText[0];
+        console.log(command);
+        songName = randomText[1];
+        console.log(songName);
+      });
+}
+
 
 // my-tweets command
 if(command === "my-tweets") {
@@ -117,11 +136,8 @@ else if (command === "movie-this") {
     }
 }
 
-//do-what-it-says command
-else if (command === "do-what-it-says") {
-    
-}
 
+// if no command entered
 else {
     console.log("Please enter a valid command: my-tweets, spotify-this-song, movie-this or do-what-it-says");
 }
