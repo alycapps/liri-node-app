@@ -30,22 +30,30 @@ else if (command === "spotify-this-song") {
     if(process.argv[3]) {
         var songName = "";
         for(var i=3; i<process.argv.length; i++) {
-            songName = songName + process.argv[i];
+           songName = songName + process.argv[i];
         }
         spotify.search({ type: 'track', query: songName, limit: 1}, function(err, data) {
             if (err) {
               return console.log('Error occurred: ' + err);
             }
-            console.log(data); 
+            var result = data.tracks.items[0];
+            console.log("Song: " + JSON.stringify(result.name, null, 2));
+            console.log("Album: " + JSON.stringify(result.album.name, null, 2));
+            console.log("Artist(s): " + JSON.stringify(result.artists[0].name, null, 2));
+            console.log("Preview Link: " + JSON.stringify(result.preview_url, null, 2));
         });
     }
     //default to "The Sign" by Ace of Base if none entered
     else {
-        spotify.search({ type: 'track', query: 'The Sign', limit: 1}, function(err, data) {
+        spotify.search({ type: 'track', query: 'The Sign Ace of Base', limit: 1}, function(err, data) {
             if (err) {
               return console.log('Error occurred: ' + err);
             }
-            console.log(data); 
+            var result = data.tracks.items[0];
+            console.log("Song: " + JSON.stringify(result.name, null, 2));
+            console.log("Album: " + JSON.stringify(result.album.name, null, 2));
+            console.log("Artist(s): " + JSON.stringify(result.artists[0].name, null, 2));
+            console.log("Preview Link: " + JSON.stringify(result.preview_url, null, 2));
         });
     }
 }
@@ -111,7 +119,7 @@ else if (command === "movie-this") {
 
 //do-what-it-says command
 else if (command === "do-what-it-says") {
-
+    
 }
 
 else {
