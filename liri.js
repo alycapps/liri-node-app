@@ -11,7 +11,7 @@ var command = process.argv[2];
 
 // my-tweets command
 if(command === "my-tweets") {
-    var params = {screen_name: 'joeatraleigh', count:10 };
+    var params = {screen_name: 'joeatraleigh', count:20 };
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
       if (!error) {
         // console.log(tweets);
@@ -56,19 +56,28 @@ else if (command === "movie-this") {
     if(process.argv[3]) {
         var movieName = "";
         for(var m=3; m<process.argv.length; m++) {
-            movieName = movieName + process.argv[m];
+            movieName = movieName + " " + process.argv[m];
         }
+        console.log(movieName);
         var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
         request(queryUrl, function(error, response, body) {
             if (!error && response.statusCode === 200) {
-                console.log("Title of the Movie: " + JSON.parse(body).Title);
-                console.log("Release Year: " + JSON.parse(body).Year);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings);
-                console.log("Country: " + JSON.parse(body).Country);
-                console.log("Language: " + JSON.parse(body).Language);
-                console.log("Plot: " + JSON.parse(body).Plot);
-                console.log("Actors: " + JSON.parse(body).Actors);
+                var result = JSON.parse(body);
+                // console.log(result);
+                console.log("Title of the Movie: " + result.Title);
+                console.log("Release Year: " + result.Year);
+                console.log("IMDB Rating: " + result.imdbRating);
+                var RTRating = "";
+                for (var r=0; r<result.Ratings.length; r++) {
+                    if(result.Ratings[r].Source === "Rotten Tomatoes") {
+                        RTRating = result.Ratings[r].Value;
+                    }
+                }
+                console.log("Rotten Tomatoes Rating: " + RTRating);
+                console.log("Country: " + result.Country);
+                console.log("Language: " + result.Language);
+                console.log("Plot: " + result.Plot);
+                console.log("Actors: " + result.Actors);
             }
         });
     }
@@ -79,15 +88,22 @@ else if (command === "movie-this") {
 
         request(queryUrl, function(error, response, body) {
             if (!error && response.statusCode === 200) {
-                console.log(JSON.parse(body));
-                console.log("Title of the Movie: " + JSON.parse(body).Title);
-                console.log("Release Year: " + JSON.parse(body).Year);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings);
-                console.log("Country: " + JSON.parse(body).Country);
-                console.log("Language: " + JSON.parse(body).Language);
-                console.log("Plot: " + JSON.parse(body).Plot);
-                console.log("Actors: " + JSON.parse(body).Actors);
+                var result = JSON.parse(body);
+                // console.log(result);
+                console.log("Title of the Movie: " + result.Title);
+                console.log("Release Year: " + result.Year);
+                console.log("IMDB Rating: " + result.imdbRating);
+                var RTRating = "";
+                for (var r=0; r<result.Ratings.length; r++) {
+                    if(result.Ratings[r].Source === "Rotten Tomatoes") {
+                        RTRating = result.Ratings[r].Value;
+                    }
+                }
+                console.log("Rotten Tomatoes Rating: " + RTRating);
+                console.log("Country: " + result.Country);
+                console.log("Language: " + result.Language);
+                console.log("Plot: " + result.Plot);
+                console.log("Actors: " + result.Actors);
             }
         });
     }
